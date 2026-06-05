@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // 버튼 prop 예시
+    // function Btn({ text, onClick }) {
+    //   return (
+    //     <button
+    //       onClick={onClick}
+    //       style={{
+    //         backgroundColor: "tomato",
+    //         color: "white",
+    //         padding: "10px 20px",
+    //         border: 0,
+    //         borderRadius: 10,
+    //       }}
+    //     >
+    //       {text}
+    //     </button>
+    //   );
+    // }
+    // const MemorizedBtn = React.memo(Btn);
+    // function App() {
+    //   const [value, setValue] = React.useState("Save Changes");
+    //   const onClick = () => setValue("Revert Changes");
+    //   return (
+    //     <div>
+    //       <MemorizedBtn text={value} onClick={onClick} />
+    //       {/* 함수 안에 onClick을 넣으면 이벤트리스너지만 여기에 넣으면 그냥
+    //       이름이 같은 prop임 */}
+    //       <MemorizedBtn text="Continue" />
+    //     </div>
+    //   );
+    // }
+
+    function Btn({ text, fontSize }) {
+      return (
+        <button
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+            fontSize: fontSize,
+          }}
+        >
+          {text}
+        </button>
+      );
+    }
+    Btn.propTypes = {
+      // 우리가 컴포넌트 내에서 설정하는 것을 안 헷갈리게 정리해두는 것
+      text: PropTypes.string,
+      fontSize: PropTypes.number.isRequired,
+    };
+    function App() {
+      return (
+        <div>
+          <Btn text="Save Changes" fontSize={18} />
+          <Btn text="Continue" fontSize={14} />
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
