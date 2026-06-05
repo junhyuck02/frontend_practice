@@ -6,10 +6,7 @@ function App() {
     <Router>
       <Switch>
         {/* swtich -> 한번에 route 하나만 렌더링 되길 원할 때 사용 */}
-        <Route path="/hello">
-          <h1>Hello</h1>
-        </Route>
-        <Route path="/movie">
+        <Route path="/movie/:id">
           <Detail />
         </Route>
         <Route path="/">
