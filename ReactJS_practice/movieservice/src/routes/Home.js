@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
+import styles from "./Home.module.css";
 
 function Home() {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
+
   const getMovies = async () => {
     const json = await (
       await fetch(`https://ghibliapi.vercel.app/films`)
     ).json();
-    setMovies(json.data.movies);
+    setMovies(json);
     setLoading(false);
   };
+
   useEffect(() => {
     getMovies();
   }, []);
@@ -23,18 +26,23 @@ function Home() {
   //     });
   // }, []);
   return (
-    <div>
+    <div className={styles.container}>
       {loading ? (
-        <h1>Loading...</h1>
+        <div className={styles.loader}>
+          <span>Loading...</span>
+        </div>
       ) : (
-        <div>
+        <div className={styles.movies}>
           {movies.map((movie) => (
             <Movie
               key={movie.id}
-              coverImg={movie.medium_cover_image}
+              id={movie.id}
+              coverImg={movie.image}
               title={movie.title}
-              summary={movie.summary}
-              genres={movie.genres}
+              summary={movie.description}
+              director={movie.director}
+              releaseDate={movie.release_date}
+              rtScore={movie.rt_score}
             />
           ))}
         </div>
