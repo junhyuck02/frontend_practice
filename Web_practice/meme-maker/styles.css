@@ -1,0 +1,83 @@
+@import "reset.css"; /* 초기화 css */
+
+body {
+    display: flex; /* 이 상자들을 정렬 상자들로 선언 */
+    gap: 20px; /* 자식들끼리 떨어져있어 */
+    justify-content: space-between; /* 가로로 정렬 */
+    align-items: flex-start; /* 위쪽 정렬 */
+    background-color: #f6f9fc;
+    padding:20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+canvas {
+    width: 800px;
+    height: 800px; 
+    background-color: white;
+    border-radius:10px;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+
+.color-options {
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    align-items: center;
+}
+.color-option {
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    border:2px solid white;
+    transition:transform ease-in-out .1s;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.color-option:hover {
+    transform: scale(1.2);
+}
+input#color {
+    background-color: white;
+}
+button,label { /* button과 lable에 똑같이 적용할 속성들 */
+    all:unset; /* 브라우저가 태그에 먹여둔 기본 스타일을 싹 다 지워서 초기화시키기 */
+    padding:10px 0px;
+    text-align: center;
+    background-color:royalblue;
+    color:white;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: opacity linear .1s;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+input#file { /* 기존 투박한 파일 선택 버튼을 없애버리기 */
+    display: none;
+} 
+
+input#text {
+    all:unset;
+    padding:10px 0px;
+    border-radius: 10px;
+    font-weight: 500;
+    text-align: center;
+    background-color:white;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
