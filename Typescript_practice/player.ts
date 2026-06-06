@@ -34,5 +34,5 @@ class User implements PlayerC {
   // C대신 PlayerD를 해도 그냥 동일한거임
   constructor(public firstName: string) {}
 }
-// type과 interface 둘다 js에서는 사라짐
+// type과 interface 둘 다 js에서는 사라짐
 // 보통 ts에게 오브젝트의 모양을 알려주기 위해서는 인터페이스를 쓰고 나머지는 타입 사용
