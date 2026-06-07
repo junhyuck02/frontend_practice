@@ -1,0 +1,11 @@
+// 이 tsconfig.json 파일이 있으면 vs code는 우리가 ts로 작업한다는 사실을 알게됨
+{
+  "include": ["src"],
+  // 어디에 ts 파일이 위치하는지 알려주는 거임
+  // 이 배열 안에는 우리가 js로 컴파일 하고 싶은 모든 디렉토리를 넣어주면됨
+  "compilerOptions": {
+    "rootDir": "src", // ts 파일이 여기에 있다는 걸 알려줌
+    "outDir": "build", // build라는 폴더에 만들어진 코드를 넣을 것이라고 알려줌
+    "target": "es6" // js의 버전을 지정해주기
+  } // js 파일이 생성될 디렉토리를 지정함
+}
