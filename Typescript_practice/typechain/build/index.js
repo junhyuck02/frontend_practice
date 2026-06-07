@@ -1,51 +1,43 @@
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
 블록체인: 여러 개의 블록이 사슬처럼 묶인 것
 그 블록 안에는 데이터가 들어있음
 블록은 다른 블록에 묶여있음, 그 연결고리는 해쉬 값
 */
-import crypto from "crypto";
-// default export 된 것만 가져옴
-// import * as crypto from "crypto"
-// 해당 모듈 안의 모든 것을 crypto라는 이름으로 묶어서 가져옴
-
-interface BlockShape {
-  hash: string; // 해쉬값
-  prevHash: string; // 이전 해쉬값
-  height: number; // 블록의 위치를 표시해주는 숫자
-  data: string; // 블록이 보호할 데이터
-}
-
-class Block implements BlockShape {
-  public hash: string;
-  constructor(
-    public prevHash: string,
-    public height: number,
-    public data: string,
-  ) {
+const crypto_1 = __importDefault(require("crypto"));
+class Block {
+  constructor(prevHash, height, data) {
+    this.prevHash = prevHash;
+    this.height = height;
+    this.data = data;
     this.hash = Block.calculateHash(prevHash, height, data);
   }
   // 생성자 ()내부는 재료를 받는 곳
   // 생성자 {}내부는 받은 재료로 뭘 할지 적는 곳
-  static calculateHash(prevHash: string, height: number, data: string) {
+  static calculateHash(prevHash, height, data) {
     const toHash = `${prevHash}${height}${data}`;
-    return crypto.createHash("sha256").update(toHash).digest("hex");
+    return crypto_1.default.createHash("sha256").update(toHash).digest("hex");
     // 문자열을 SHA256 해시값으로 변환
   }
 }
-
 class Blockchain {
-  private blocks: Block[];
   constructor() {
     this.blocks = [];
   }
-  private getPrevHash() {
+  getPrevHash() {
     if (this.blocks.length === 0) {
       return "";
     } else {
       return this.blocks[this.blocks.length - 1].hash;
     }
   }
-  public addBlock(data: string) {
+  addBlock(data) {
     const newBlock = new Block(
       this.getPrevHash(),
       this.blocks.length + 1,
@@ -53,20 +45,19 @@ class Blockchain {
     );
     this.blocks.push(newBlock);
   }
-  public getBlocks() {
+  getBlocks() {
     return [...this.blocks];
     // 그냥 return this.blocks 을 하면 원본 배열을 반환
     // 원본을 그대로 반환하면 외부에서 배열을 수정하게 될 수도 있음
     // return [...this.blocks] 이렇게 하면 복사본 배열 반환
   }
 }
-
 const blockchain = new Blockchain();
-
 blockchain.addBlock("First one");
 blockchain.addBlock("Second one");
 blockchain.addBlock("Third one");
 blockchain.addBlock("Fourth one");
-
 console.log(blockchain.getBlocks());
 // 실행 npm run dev
+
+// npm run build로 해야 ts가 js로 변환

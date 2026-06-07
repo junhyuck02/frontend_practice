@@ -1,17 +1,13 @@
-// 이 tsconfig.json 파일이 있으면 vs code는 우리가 ts로 작업한다는 사실을 알게됨
 {
   "include": ["src"],
-  // 어디에 ts 파일이 위치하는지 알려주는 거임
-  // 이 배열 안에는 우리가 js로 컴파일 하고 싶은 모든 디렉토리를 넣어주면됨
   "compilerOptions": {
-    "rootDir": "src", // ts 파일이 여기에 있다는 걸 알려줌
-    "outDir": "build", // build라는 폴더에 만들어진 코드를 넣을 것이라고 알려줌
-    "esModuleInterop": true, // import 방식을 편하게 써도 되게 해주는 설정
-    "target": "es6", // js의 버전을 지정해주기
-    "lib": ["es6", "dom"], // ts에게 어떤 API를 사용하고 어떤 환경에서 코드를 실행하는 지를 지정
-    // 프로그램이 브라우저에서 실행되면 dom 유형 정의를 할 수 있음
-    // .d.ts 파일이 있으면 ts가 js의 타입을 알 수 있게됨
-    "strict": true, // 모든 엄격한 타입 검사 옵션을 활성화함
-    "allowJs": true // ts플젝에서 js를 허용함
-  } // js 파일이 생성될 디렉토리를 지정함
+    "rootDir": "src",
+    "outDir": "build",
+    "target": "ES6",
+    "lib": ["ES6"],
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "CommonJS"
+  }
 }
