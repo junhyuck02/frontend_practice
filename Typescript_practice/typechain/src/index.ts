@@ -4,6 +4,7 @@
 블록은 다른 블록에 묶여있음, 그 연결고리는 해쉬 값
 */
 import crypto from "crypto";
+// Node.js 환경에서 암호화, 복호화, 해시 생성 등 보안과 관련된 기능을 사용하겠다는 거임
 // default export 된 것만 가져옴
 // import * as crypto from "crypto"
 // 해당 모듈 안의 모든 것을 crypto라는 이름으로 묶어서 가져옴
@@ -58,6 +59,7 @@ class Blockchain {
     // 그냥 return this.blocks 을 하면 원본 배열을 반환
     // 원본을 그대로 반환하면 외부에서 배열을 수정하게 될 수도 있음
     // return [...this.blocks] 이렇게 하면 복사본 배열 반환
+    // this.blocks는 이미 배열임, 이 요소들을 꺼내서 펼치고 다시 []로 감싸서 복사된 완전히 새로운 배열을 만드는거임
   }
 }
 
