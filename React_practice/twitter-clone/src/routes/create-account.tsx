@@ -48,10 +48,14 @@ export default function CreateAccount() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // ???
+    // 이 함수는 input 요소의 값이 변경될 때 발생하는 이벤트를 받는다
     const {
-      target: { name, value }, // ???
+      target: { name, value },
     } = e;
+    // 구조 분해 할당 문법
+    // e 객체 안에 있는 target 속성을 찾아서 값을 넣어라
+    // const name = e.target.name;
+    // const value = e.target.value;
     if (name === "name") {
       setName(value);
     } else if (name === "email") {
@@ -60,8 +64,8 @@ export default function CreateAccount() {
       setPassword(value);
     }
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // ???
+  const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    // FormEvent가 권장되는 방법이 아니라서 SubmitEvent로 대체
     e.preventDefault();
     try {
       // 계정 생성
