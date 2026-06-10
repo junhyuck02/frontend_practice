@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
+// 점의 개수는 현재 내 위치에서 얼마나 올라가야하는가를 의미
+// 점이 두개면 현재 폴더의 상위 풀더로 한 단계 위로 올라가라는 뜻
 import styles from "./Home.module.css";
 
 function Home() {
