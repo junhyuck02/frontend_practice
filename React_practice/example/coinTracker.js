@@ -9,9 +9,11 @@ function App() {
   const [selectedPrice, setSelectedPrice] = useState(0); // 선택한 코인의 1개당 가격을 기억해둘 방
 
   useEffect(() => {
-    fetch("https://api.coinpaprika.com/v1/tickers")
-      .then((response) => response.json())
+    fetch("https://api.coinpaprika.com/v1/tickers") // url로 데이터 보내달라고 요청
+      // then은 앞의 작업이 끝날때까지 기다렸다가 끝나면 다음 작업을 실행하라는 거임
+      .then((response) => response.json()) // 서버에서 데이터가 도착하면, 그 데이터를 우리가 읽을 수 있는 JSON 형식으로 변환
       .then((json) => {
+        // 서버에서 받아와서 JSON으로 변환된 데이터 json을 함수에 넘겨주어서 coins의 상태를 업데이트 해라
         setCoins(json);
         if (json.length > 0) {
           // 가져온 코인 데이터가 비어있지 않다면

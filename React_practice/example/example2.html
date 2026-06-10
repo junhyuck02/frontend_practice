@@ -9,6 +9,9 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     // 버튼 prop 예시
+    // prop은 언제 사용하는가?
+    // props는 컴포넌트 재사용이 필요하거나 부모 컴포넌트가 자식 컴포넌트에게 데이터를 전달하고 싶을 때 사용
+
     // function Btn({ text, onClick }) {
     //   return (
     //     <button
@@ -26,6 +29,7 @@
     //   );
     // }
     // const MemorizedBtn = React.memo(Btn);
+    // 데이터가 바뀔때만 다시 리렌더링하게끔 memo를 사용
     // function App() {
     //   const [value, setValue] = React.useState("Save Changes");
     //   const onClick = () => setValue("Revert Changes");
@@ -57,6 +61,7 @@
     }
     Btn.propTypes = {
       // 우리가 컴포넌트 내에서 설정하는 것을 안 헷갈리게 정리해두는 것
+      // 그냥 함수에 전달하는 인자 정리 느낌
       text: PropTypes.string,
       fontSize: PropTypes.number.isRequired,
     };

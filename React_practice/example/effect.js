@@ -1,4 +1,7 @@
 // useEffect의 기능과 예시
+// 언제 useEffect를 사용하나?
+// 컴포넌트가 특정한 타이밍(렌더링 직후, 데이터 변경 시 등)에 무언가를 실행하고 싶을 때 사용하는 도구
+
 // import { useState, useEffect } from "react";
 
 // function App() {
@@ -6,23 +9,30 @@
 //   const [keyword, setKeyword] = useState("");
 //   const onClick = () => setValue((prev) => prev + 1);
 //   const onChange = (event) => setKeyword(event.target.value);
+
 //   useEffect(() => {
 //     console.log("I run only once.");
 //   }, []); // 처음 실행 시에 딱 한번만 실행되고 다시는 하지 말어라
+
 //   useEffect(() => {
 //     console.log("I run when 'keyword' changes.");
 //   }, [keyword]); // 시작할때, 이 keyword가 변화할때만 코드를 실행할거라고 알려주는 것
+
 //   useEffect(() => {
 //     console.log("I run when 'counter' changes");
 //   }, [counter]); // 시작할때, 이 counter가 변화할때만 코드를 실행할거라고 알려주는 것
+
 //   useEffect(() => {
 //     console.log("I run when keyword & counter changes");
-//   }, [keyword, counter]); // 시작할때, 이 keyword와 counter 둘중 하나라도 변화할때만 코드를 실행할거라고 알려주는 것
+//   }, [keyword, counter]); // 시작할때, 이 keyword와 counter 둘중 하나라도 변화할때만
+// 코드를 실행할거라고 알려주는 것
+
 //   useEffect(() => {
 //     if (keyword !== "" && keyword.length > 5) {
 //       console.log("SEARCH FOR", keyword);
 //     }
 //   }, [keyword]); // 시작할때, 이 keyword가 변화할때만 코드를 실행할거라고 알려주는 것
+
 //   return (
 //     <div>
 //       <input
@@ -46,7 +56,7 @@ function Hello() {
   useEffect(() => {
     console.log("created :)");
     return () => console.log("destroyed :(");
-    // 컴포넌트가 사라지거나 숨겨질때 뭔가를 하고싶을때 이용
+    // return () => {} 컴포넌트가 사라지거나 숨겨질때 뭔가를 하고싶을때 이용
   }, []);
   return <h1>Hello</h1>;
 
