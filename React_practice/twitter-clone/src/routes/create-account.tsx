@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -9,11 +12,9 @@ const Wrapper = styled.div`
   width: 420px;
   padding: 50px 0px;
 `;
-
 const Title = styled.h1`
   font-size: 42px;
 `;
-
 const Form = styled.form`
   margin-top: 50px;
   display: flex;
@@ -21,7 +22,6 @@ const Form = styled.form`
   gap: 10px;
   width: 100%;
 `;
-
 const Input = styled.input`
   padding: 10px 20px;
   border-radius: 50px;
@@ -35,18 +35,19 @@ const Input = styled.input`
     }
   }
 `;
-
 const Error = styled.span`
   font-weight: 600;
   color: tomato;
 `;
 
 export default function CreateAccount() {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 이 함수는 input 요소의 값이 변경될 때 발생하는 이벤트를 받는다
     const {
@@ -57,20 +58,37 @@ export default function CreateAccount() {
     // const name = e.target.name;
     // const value = e.target.value;
     if (name === "name") {
-      setName(value);
+      setUsername(value);
     } else if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
     }
   };
-  const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     // FormEvent가 권장되는 방법이 아니라서 SubmitEvent로 대체
     e.preventDefault();
+    if (isLoading || username === "" || email === "" || password === "") {
+      return;
+    }
     try {
-      // 계정 생성
-      // 사용자 프로필의 이름을 지정
-      // 홈페이지로
+      setLoading(true);
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      // firebase가 제공하는 함수임
+      // 이매일과 비밀번호로 계정을 생성하고 로그인까지 해주는 함수
+      console.log(credentials.user);
+      await updateProfile(credentials.user, {
+        displayName: username,
+      });
+      // firebase가 제공하는 함수임
+      // 전단계에서 쓴 함수가 인자를 이메일, 비번밖에 안받아서 추가적인 사용자 정보를 프로필에 저장하고 업데이트하는 것
+      // .user는 생성된 사용자에 대한 모든 정보가 담긴 객체를 반환, displayName도 정해진 키 이름
+      navigate("/");
+      // 페이지를 이동
     } catch (e) {
       // error setting
     } finally {
@@ -79,12 +97,12 @@ export default function CreateAccount() {
   };
   return (
     <Wrapper>
-      <Title>Log into 𝕏</Title>
+      <Title>Join 𝕏</Title>
       <Form onSubmit={onSubmit}>
         <Input
           onChange={onChange}
           name="name"
-          value={name}
+          value={username}
           placeholder="Name"
           type="text"
           required
