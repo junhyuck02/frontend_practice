@@ -108,7 +108,7 @@ export default function CreateAccount() {
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
       <Switcher>
-        Already have an account? <Link to="/login">Log in</Link>
+        Already have an account? <Link to="/login">Log in &rarr;</Link>
         {/* 
           Link: 페이지를 새로고침하지 않고 url만 변경함, 내부 페이지 이동 시 필수
           a: 페이지 전체를 새로고침함, 외부 사이트로 이동 시 사용
