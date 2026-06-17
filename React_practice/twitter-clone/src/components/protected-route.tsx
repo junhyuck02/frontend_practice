@@ -15,4 +15,4 @@ export default function ProtectedRoute({
   return children;
 }
 // <Navigate />: 렌더링 도중 페이지를 이동시켜야 할 때 사용
-// navigate(""): 특정 이벤트 발생 시 이동시킬 때 사용
+// useNavigate(): 특정 이벤트 발생 시 이동시킬 때 사용

@@ -1,44 +1,16 @@
-import styled from "styled-components";
-import { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useState } from "react";
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
-
-const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 420px;
-  padding: 50px 0px;
-`;
-const Title = styled.h1`
-  font-size: 42px;
-`;
-const Form = styled.form`
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-`;
-const Input = styled.input`
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: none;
-  width: 100%;
-  font-size: 16px;
-  &[type="submit"] {
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-`;
-const Error = styled.span`
-  font-weight: 600;
-  color: tomato;
-`;
+import { Link, useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
+import {
+  Form,
+  Error,
+  Input,
+  Switcher,
+  Title,
+  Wrapper,
+} from "../components/auth-components";
 
 export default function CreateAccount() {
   const navigate = useNavigate();
@@ -68,6 +40,7 @@ export default function CreateAccount() {
   const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     // FormEvent가 권장되는 방법이 아니라서 SubmitEvent로 대체
     e.preventDefault();
+    setError("");
     if (isLoading || username === "" || email === "" || password === "") {
       return;
     }
@@ -80,7 +53,7 @@ export default function CreateAccount() {
       );
       // firebase가 제공하는 함수임
       // 이매일과 비밀번호로 계정을 생성하고 로그인까지 해주는 함수
-      console.log(credentials.user);
+
       await updateProfile(credentials.user, {
         displayName: username,
       });
@@ -90,7 +63,9 @@ export default function CreateAccount() {
       navigate("/");
       // 페이지를 이동
     } catch (e) {
-      // error setting
+      if (e instanceof FirebaseError) {
+        setError(e.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -129,6 +104,9 @@ export default function CreateAccount() {
         />
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
+      <Switcher>
+        Already have an account? <Link to="/login">Log in</Link>
+      </Switcher>
     </Wrapper>
   );
 }
