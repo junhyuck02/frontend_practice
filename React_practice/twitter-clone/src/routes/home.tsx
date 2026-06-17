@@ -11,5 +11,3 @@ export default function Home() {
     </h1>
   );
 }
-
-// 왜 로그아웃이 안되지?? 다시 로그인페이지로 돌아와야하는데
