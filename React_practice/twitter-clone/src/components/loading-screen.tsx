@@ -18,7 +18,7 @@ export default function LoadingScreen() {
   );
 }
 
-// 백틱은 언제쓰냐?
+// ``(백틱)은 언제쓰냐?
 // 1. 변수를 문자열에 넣고 싶을 때
 // 2. 여러 줄로 된 긴 문장을 쓸 때
 // 3. styled-components를 쓸 때

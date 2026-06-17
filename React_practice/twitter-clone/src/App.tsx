@@ -13,12 +13,18 @@ import reset from "styled-reset";
 // 모든 브라우저의 기본 스타일(여백, 글자 크기 등)을 깔끔하게 초기화해주는 도구
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
+import ProtectedRoute from "./components/protected-route";
 
 const myRouter = createBrowserRouter([
   // 설계도 생성하기
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    // element: 어떤 요소를 보여줄 것인가?
     children: [
       {
         path: "",
@@ -29,6 +35,7 @@ const myRouter = createBrowserRouter([
         element: <Profile />,
       },
     ],
+    // children: 부모 페이지 안에 포함된 자식 페이지를 정의할 때 사용
   },
   // 먼저 Layout을 보여주고 달라지는 부분만 Outlet으로 자식을 갈아 끼우는 형식
   {
@@ -60,6 +67,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
   const init = async () => {
     await auth.authStateReady();
+    // firebase에서 제공하는 함수
     // 인증 상태가 준비되었는지 기다리기
     setLoading(false);
   };
