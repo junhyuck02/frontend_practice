@@ -35,6 +35,7 @@ export default function CreateAccount() {
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+      // firebase에서 제공하는 이메일과 비번으로 로그인해주는 함수
       navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
@@ -68,7 +69,7 @@ export default function CreateAccount() {
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
       <Switcher>
-        Don't have an account?{" "}
+        Don't have an account? {/* {" "}는 공백 하나를 강제로 넣어주는 것 */}
         <Link to="/create-account">Create one &rarr;</Link>
       </Switcher>
     </Wrapper>

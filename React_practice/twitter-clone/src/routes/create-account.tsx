@@ -58,13 +58,15 @@ export default function CreateAccount() {
         displayName: username,
       });
       // firebase가 제공하는 함수임
-      // 전단계에서 쓴 함수가 인자를 이메일, 비번밖에 안받아서 추가적인 사용자 정보를 프로필에 저장하고 업데이트하는 것
+      // 전 단계에서 쓴 함수가 인자를 이메일, 비번밖에 안받아서 추가적인 사용자 정보를 프로필에 저장하고 업데이트하는 것
       // .user는 생성된 사용자에 대한 모든 정보가 담긴 객체를 반환, displayName도 정해진 키 이름
       navigate("/");
       // 페이지를 이동
     } catch (e) {
       if (e instanceof FirebaseError) {
+        // firebase에서 제공하는 특수한 에러 타입
         setError(e.message);
+        // message: 사용자에게 보여주기 위한 에러 설명
       }
     } finally {
       setLoading(false);
@@ -106,6 +108,10 @@ export default function CreateAccount() {
       {error !== "" ? <Error>{error}</Error> : null}
       <Switcher>
         Already have an account? <Link to="/login">Log in</Link>
+        {/* 
+          Link: 페이지를 새로고침하지 않고 url만 변경함, 내부 페이지 이동 시 필수
+          a: 페이지 전체를 새로고침함, 외부 사이트로 이동 시 사용
+        */}
       </Switcher>
     </Wrapper>
   );
