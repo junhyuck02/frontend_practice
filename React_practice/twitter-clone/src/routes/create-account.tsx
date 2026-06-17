@@ -11,6 +11,7 @@ import {
   Title,
   Wrapper,
 } from "../components/auth-components";
+import GithubButton from "../components/github-btn";
 
 export default function CreateAccount() {
   const navigate = useNavigate();
@@ -113,6 +114,7 @@ export default function CreateAccount() {
           a: 페이지 전체를 새로고침함, 외부 사이트로 이동 시 사용
         */}
       </Switcher>
+      <GithubButton />
     </Wrapper>
   );
 }
