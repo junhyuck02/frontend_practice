@@ -47,3 +47,11 @@ export const Switcher = styled.span`
     color: #1d9bf0;
   }
 `;
+
+export const ResetLink = styled.span`
+  cursor: pointer;
+  &:hover {
+    color: #1d9bf0;
+  }
+  transition: color 0.2s ease;
+`;

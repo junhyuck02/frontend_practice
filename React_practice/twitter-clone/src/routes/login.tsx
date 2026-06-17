@@ -2,7 +2,10 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   Error,
   Form,
@@ -10,6 +13,7 @@ import {
   Switcher,
   Title,
   Wrapper,
+  ResetLink,
 } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 
@@ -19,6 +23,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [resetSent, setResetSent] = useState(false);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
@@ -46,6 +52,24 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  const onResetPassword = async () => {
+    if (email === "") {
+      setError("이메일을 먼저 입력해주세요.");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      // firebase에서 제공하는 비밀번호를 재설정할 수 있는 링크가 담긴 이메일을 해당 사용자에게 발송하는 함수
+      setResetSent(true);
+      setError("");
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        setError(e.message);
+      }
+    }
+  };
+
   return (
     <Wrapper>
       <Title>Log into 𝕏</Title>
@@ -69,6 +93,10 @@ export default function Login() {
         <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
+      {resetSent ? <p>이메일을 확인해주세요!</p> : null}
+      <Switcher>
+        <ResetLink onClick={onResetPassword}>비밀번호를 잊으셨나요?</ResetLink>
+      </Switcher>
       <Switcher>
         Don't have an account? {/* {" "}는 공백 하나를 강제로 넣어주는 것 */}
         <Link to="/create-account">Create one &rarr;</Link>
