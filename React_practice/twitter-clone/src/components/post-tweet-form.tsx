@@ -69,15 +69,21 @@ export default function PostTweetForm() {
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
   };
+  // 텍스트를 입력할 때마다 호출되어 입력된 내용을 tweet 상태에 저장
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+    // files라는 속성을 구조 분해 할당으로 꺼낸다
     if (files && files.length === 1) {
-      // file이 존재하고 딱 하나의 파일이 있다면
+      // files가 존재하고 딱 하나의 파일이 있다면
       setFile(files[0]);
     }
   };
+  // 파일을 선택하면 선택한 파일이 유효한지 확인하고 상태에 저장한다
+
   return (
     <Form>
+      {/* 글자를 입력할 때마다 함수가 호출되어서 tweet의 상태를 실시간으로 반영한다 */}
       <TextArea
         rows={5}
         maxLength={180}
@@ -85,15 +91,21 @@ export default function PostTweetForm() {
         value={tweet}
         placeholder="What is happening?!"
       />
+
+      {/* 버튼과 input을 연결해서 버튼을 클릭하면 파일 선택 창이 열린다 */}
       <AttachFileButton htmlFor="file">
         {file ? "Photo added ✅" : "Add photo"}
       </AttachFileButton>
+
+      {/* 파일을 선택하면 선택된 파일의 상태에 저장한다 */}
       <AttachFileInput
         onChange={onFileChange}
         type="file"
         id="file"
         accept="image/*"
       />
+
+      {/* 제출 버튼 */}
       <SubmitBtn
         type="submit"
         value={isLoading ? "Posting..." : "Post Tweet"}
