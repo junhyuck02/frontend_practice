@@ -66,6 +66,7 @@ export default function PostTweetForm() {
   const [isLoading, setLoading] = useState(false);
   const [tweet, setTweet] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  // file이라는 애는 파일객체 File이거나 null이다 라고 타입을 지정, 초기 값은 null로 설정해주겠다
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTweet(e.target.value);
   };
