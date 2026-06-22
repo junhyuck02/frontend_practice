@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { styled } from "styled-components";
+import { auth, db } from "../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 const Form = styled.form`
   display: flex;
@@ -82,8 +84,34 @@ export default function PostTweetForm() {
   };
   // 파일을 선택하면 선택한 파일이 유효한지 확인하고 상태에 저장한다
 
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+    // 현재 로그인된 사용자의 정보를 담고 있는 객체
+    if (!user || isLoading || tweet === "" || tweet.length > 180) {
+      // 사용자가 없거나 로딩중이거나 글이 비어있거나 글자 수를 초기화하면 바로 종료
+      return;
+    }
+    try {
+      setLoading(true);
+      await addDoc(collection(db, "tweets"), {
+        // addDoc: firebase에서 제공, 지정된 컬렉션에 새로운 데이터를 추가하고 고유한 ID를 자동으로 생성해주는 함수
+        // collection: firebase에서 제공, 데이터를 담는 폴더(컬렉션)를 가리키는 객체를 생성하는 함수
+        // db 객체에서 tweets 라는 이름의 컬렉션을 찾아 그 안에 데이터를 넣겠다
+        tweet,
+        createdAt: Date.now(), // 트윗이 작성된 시간
+        username: user.displayName || "Anonymous",
+        userId: user.uid,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       {/* 글자를 입력할 때마다 함수가 호출되어서 tweet의 상태를 실시간으로 반영한다 */}
       <TextArea
         rows={5}
