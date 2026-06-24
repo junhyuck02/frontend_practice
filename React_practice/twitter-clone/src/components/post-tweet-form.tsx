@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import { auth, db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { auth, db, storage } from "../firebase";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Form = styled.form`
   display: flex;
@@ -79,7 +80,14 @@ export default function PostTweetForm() {
     // files라는 속성을 구조 분해 할당으로 꺼낸다
     if (files && files.length === 1) {
       // files가 존재하고 딱 하나의 파일이 있다면
-      setFile(files[0]);
+      const selectedFile = files[0];
+      // 1메가 미만의 파일만 업로드 가능하게끔
+      const maxSize = 1 * 1024 * 1024;
+      if (selectedFile.size > maxSize) {
+        alert("파일 크기가 너무 큽니다. 1MB 미만의 파일만 업로드 가능합니다.");
+        return;
+      }
+      setFile(selectedFile);
     }
   };
   // 파일을 선택하면 선택한 파일이 유효한지 확인하고 상태에 저장한다
@@ -94,7 +102,7 @@ export default function PostTweetForm() {
     }
     try {
       setLoading(true);
-      await addDoc(collection(db, "tweets"), {
+      const doc = await addDoc(collection(db, "tweets"), {
         // addDoc: firebase에서 제공, 지정된 컬렉션에 새로운 데이터를 추가하고 고유한 ID를 자동으로 생성해주는 함수
         // collection: firebase에서 제공, 데이터를 담는 폴더(컬렉션)를 가리키는 객체를 생성하는 함수
         // db 객체에서 tweets 라는 이름의 컬렉션을 찾아 그 안에 데이터를 넣겠다
@@ -103,6 +111,28 @@ export default function PostTweetForm() {
         username: user.displayName || "Anonymous",
         userId: user.uid,
       });
+
+      if (file) {
+        const locationRef = ref(
+          storage,
+          `tweets/${user.uid}-${user.displayName}/${doc.id}`,
+        );
+        // firebase 제공, storage 내의 특정 위치를 가리키는 참조 객체를 생성, 파일이 어디에 저장될지 지정하는 주소표지판 느낌
+        // 인자: storage 인스턴스, 파일이 저장될 경로
+        const result = await uploadBytes(locationRef, file);
+        // firebase 제공, 생성된 참조 위치에 실제 파일 데이터를 업로드함
+        // 인자: 파일이 저장된 storagereference, 업로드할 파일 데이터
+        const url = await getDownloadURL(result.ref);
+        // firebase 제공, 업로드된 파일에 접근할 수 있는 공개 URL을 가져옴
+        // 인자: .ref로 업로드 결과의 참조객체에 접근
+        await updateDoc(doc, {
+          photo: url,
+        });
+        // firebase 제공, 데베에 있는 기존 문서의 내용을 수정
+      }
+      // 업로드하면 리셋해주기
+      setTweet("");
+      setFile(null);
     } catch (e) {
       console.log(e);
     } finally {
@@ -114,6 +144,7 @@ export default function PostTweetForm() {
     <Form onSubmit={onSubmit}>
       {/* 글자를 입력할 때마다 함수가 호출되어서 tweet의 상태를 실시간으로 반영한다 */}
       <TextArea
+        required
         rows={5}
         maxLength={180}
         onChange={onChange}
