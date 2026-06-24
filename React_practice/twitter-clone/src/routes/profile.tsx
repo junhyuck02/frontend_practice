@@ -1,8 +1,18 @@
 import { styled } from "styled-components";
-import { auth, storage } from "../firebase";
-import { useState } from "react";
+import { auth, db, storage } from "../firebase";
+import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import type { ITweet } from "../components/timeline";
+import Tweet from "../components/tweet";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +34,6 @@ const AvatarUpload = styled.label`
     width: 50px;
   }
 `;
-
 const AvatarImg = styled.img`
   width: 100%;
 `;
@@ -34,10 +43,17 @@ const AvatarInput = styled.input`
 const Name = styled.span`
   font-size: 22px;
 `;
+const Tweets = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 export default function Profile() {
   const user = auth.currentUser;
   const [avatar, setAvatar] = useState(user?.photoURL);
+  const [tweets, setTweets] = useState<ITweet[]>([]);
   const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!user) {
@@ -50,11 +66,43 @@ export default function Profile() {
       const avatarUrl = await getDownloadURL(result.ref);
       setAvatar(avatarUrl);
       await updateProfile(user, {
+        // firebase 제공, 프로필 정보를 서버에 저장하고 업데이트할 때 사용
         photoURL: avatarUrl,
       });
-      // firebase 제공, 프로필 정보를 서버에 저장하고 업데이트할 때 사용
     }
   };
+
+  // 현재 로그인한 사용자의 tweets만 가져오는 함수
+  const fetchTweets = async () => {
+    const tweetQuery = query(
+      collection(db, "tweets"),
+      where("userId", "==", user?.uid),
+      // firebase 제공, 데이터를 필터링할 때 사용하는 함수
+      // 인자: db안에 있는 속성의 이름, 비교 연산자, 비교할 실제 데이터
+      orderBy("createdAt", "desc"),
+      // where과 orderBy를 동시에 사용하면 Firebase는 해당 조건에 맞는 정렬된 인덱스를 요구
+      // 너가 어떤 종류의 필터를 사용할지 알려줘야함 -> 콘솔의 링크로 이동해서 저장
+      limit(25),
+    );
+    const snapshot = await getDocs(tweetQuery);
+    // db에 있는 문서들의 목록을 한번에 가져와라
+    const tweets = snapshot.docs.map((doc) => {
+      const { tweet, createdAt, userId, username, photo } = doc.data();
+      return {
+        tweet,
+        createdAt,
+        userId,
+        username,
+        photo,
+        id: doc.id,
+      };
+    });
+    setTweets(tweets);
+  };
+  useEffect(() => {
+    fetchTweets();
+  }, []);
+
   return (
     <Wrapper>
       <AvatarUpload htmlFor="avatar">
@@ -78,6 +126,11 @@ export default function Profile() {
         accept="image/*"
       />
       <Name>{user?.displayName ?? "Anonymous"}</Name>
+      <Tweets>
+        {tweets.map((tweet) => (
+          <Tweet key={tweet.id} {...tweet} />
+        ))}
+      </Tweets>
     </Wrapper>
   );
 }
