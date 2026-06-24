@@ -113,10 +113,7 @@ export default function PostTweetForm() {
       });
 
       if (file) {
-        const locationRef = ref(
-          storage,
-          `tweets/${user.uid}-${user.displayName}/${doc.id}`,
-        );
+        const locationRef = ref(storage, `tweets/${user.uid}/${doc.id}`);
         // firebase 제공, storage 내의 특정 위치를 가리키는 참조 객체를 생성, 파일이 어디에 저장될지 지정하는 주소표지판 느낌
         // 인자: storage 인스턴스, 파일이 저장될 경로
         const result = await uploadBytes(locationRef, file);
