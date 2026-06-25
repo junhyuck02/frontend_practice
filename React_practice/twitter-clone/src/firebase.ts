@@ -17,7 +17,6 @@ export const app = initializeApp(firebaseConfig);
 
 // 나 authenticaton 이용할거야
 export const auth = getAuth(app);
-
 // 이미지나 동영상, 파일 등을 저장하거나 불러올 때 사용하는 스토리지 이용할거야
 export const storage = getStorage(app);
 // 나 데이터베이스 이용할거야

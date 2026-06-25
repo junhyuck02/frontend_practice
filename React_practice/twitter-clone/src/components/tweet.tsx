@@ -51,7 +51,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
     try {
       await deleteDoc(doc(db, "tweets", id));
       // deleteDoc: firebase 제공, 특정 경로에 있는 문서를 찾아 삭제 (데이터나 글)
-      // doc: firebase 제공, 해당 위치 문서를 컴퓨터가 찾아갈수 있게 주소를 만드는 작업
+      // doc: firebase 제공, 해당 위치 문서를 컴퓨터가 찾아갈 수 있게 주소를 만드는 작업
       // 인자: db객체, 컬렉션, 문서의 id
       if (photo) {
         const photoRef = ref(storage, `tweets/${user.uid}/${id}`);
@@ -72,8 +72,10 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
         {user?.uid === userId ? (
           <DeleteButton onClick={onDelete}>Delete</DeleteButton>
         ) : null}
-        {/* user라는 놈이 있으면 그놈의 uid를 가져오고 없으면 그냥 undefined해라
-        user의 id와 트윗의 id가 동일하면 버튼을 보여주고 아니면 숨김 */}
+        {/* ?.: 
+          user라는 놈이 있으면 그놈의 uid를 가져오고 없으면 그냥 undefined해라
+          user의 id와 트윗의 id가 동일하면 버튼을 보여주고 아니면 숨김 
+        */}
       </Column>
       <Column>{photo ? <Photo src={photo} /> : null}</Column>
     </Wrapper>

@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-// 부모의 뼈대는 그대로고 안의 자식(내용물)만 바뀔 때 사용함
+// Outlet: 부모의 뼈대는 그대로고 안의 자식(내용물)만 바뀔 때 사용함
 import { styled } from "styled-components";
 import { auth } from "../firebase";
 const Wrapper = styled.div`
@@ -45,7 +45,7 @@ export default function Layout() {
     // 팝업창을 띄우는 js 기본 함수
     if (ok === true) {
       await auth.signOut();
-      // firebase에서 제공하는 로그아웃 하는 함수
+      // firebase 제공, 로그아웃 하는 함수
       navigate("/login");
     }
   };

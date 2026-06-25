@@ -22,7 +22,7 @@ const Logo = styled.img`
   height: 25px;
 `;
 
-// github.com/settings/developers으로 이동
+// github.com/settings/developers으로 이동하기
 
 export default function GithubButton() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function GithubButton() {
       const provider = new GithubAuthProvider();
       // github로 로그인을 구현하기 위한 설정 객체
       await signInWithPopup(auth, provider); // 이건 popup창을 띄움
-      // await signInWithRedirect(auth, provider); 이건 페이지를 이동
+      // await signInWithRedirect(auth, provider); 이건 페이지를 이동함
       navigate("/");
     } catch (error) {
       console.log(error);

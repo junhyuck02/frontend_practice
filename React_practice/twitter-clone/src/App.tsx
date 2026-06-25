@@ -1,6 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// createBrowserRouter: 라우터의 설계도를 만드는 함수
-// RouterProvider: 설계도를 실제로 적용하는 도구
 import Layout from "./components/layout";
 import LoadingScreen from "./components/loading-screen";
 import Home from "./routes/home";
@@ -8,14 +6,13 @@ import Profile from "./routes/profile";
 import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
 import { createGlobalStyle, styled } from "styled-components";
-// createGlobalStyle: 웹사이트 전체에 적용될 공통 스타일(글로벌 스타일)을 정의할 때 쓰는 도구
 import reset from "styled-reset";
-// 모든 브라우저의 기본 스타일(여백, 글자 크기 등)을 깔끔하게 초기화해주는 도구
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
 import ProtectedRoute from "./components/protected-route";
 
 const myRouter = createBrowserRouter([
+  // createBrowserRouter: 라우터의 설계도를 만드는 함수
   // 설계도 생성하기
   {
     path: "/",
@@ -55,7 +52,10 @@ const GlobalStyles = createGlobalStyle`
     color:white;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
-`; // reset으로 브라우저를 초기화 해주고 공통설정을 적용하기
+`;
+// createGlobalStyle: 웹사이트 전체에 적용될 공통 스타일(글로벌 스타일)을 정의할 때 쓰는 도구
+// reset: 모든 브라우저의 기본 스타일(여백, 글자 크기 등)을 깔끔하게 초기화해주는 도구
+// reset으로 브라우저를 초기화 해주고 공통설정을 적용하기
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -67,8 +67,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
   const init = async () => {
     await auth.authStateReady();
-    // firebase에서 제공하는 함수
-    // 인증 상태가 준비되었는지 기다리기
+    // firebase 제공, 인증 상태가 준비되었는지 기다리기
     setLoading(false);
   };
   useEffect(() => {
@@ -78,7 +77,10 @@ function App() {
     <Wrapper>
       <GlobalStyles />
       {isLoading ? <LoadingScreen /> : <RouterProvider router={myRouter} />}
-      {/* 라우터 설계도를 앱에 적용해주기, router 속성명은 고정임 */}
+      {/* 
+        RouterProvider: 설계도를 실제로 적용하는 도구
+        라우터 설계도를 앱에 적용해주기, router 속성명은 고정임 
+      */}
     </Wrapper>
   );
 }

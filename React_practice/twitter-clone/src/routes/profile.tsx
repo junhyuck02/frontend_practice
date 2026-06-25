@@ -81,7 +81,7 @@ export default function Profile() {
       // 인자: db안에 있는 속성의 이름, 비교 연산자, 비교할 실제 데이터
       orderBy("createdAt", "desc"),
       // where과 orderBy를 동시에 사용하면 Firebase는 해당 조건에 맞는 정렬된 인덱스를 요구
-      // 너가 어떤 종류의 필터를 사용할지 알려줘야함 -> 콘솔의 링크로 이동해서 저장
+      // 너가 어떤 종류의 필터를 사용할지 알려줘야함 -> 콘솔의 링크로 이동해서 저장하기
       limit(25),
     );
     const snapshot = await getDocs(tweetQuery);

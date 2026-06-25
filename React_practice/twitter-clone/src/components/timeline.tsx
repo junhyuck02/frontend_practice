@@ -15,7 +15,7 @@ import type { Unsubscribe } from "firebase/auth";
 export interface ITweet {
   id: string;
   photo?: string;
-  // photo는 필수가 아니다
+  // photo는 필수가 아니라는 뜻
   tweet: string;
   userId: string;
   username: string;
@@ -41,13 +41,13 @@ export default function Timeline() {
     const fetchTweets = async () => {
       // 데이터 호출 함수
       const tweetsQuery = query(
-        // firebase 제공 함수 query, db에서 내가 원하는 데이터만 골라내기 위한 조건을 만드는 함수
+        // firebase 제공, query: db에서 내가 원하는 데이터만 골라내기 위한 조건을 만드는 함수
         collection(db, "tweets"),
         orderBy("createdAt", "desc"),
-        // firebase 제공 함수, 특정 필드 값을 기준으로 정렬
-        // 작성시간을 기준으로 내림차순으로 정렬
+        // firebase 제공, 특정 필드 값을 기준으로 정렬
+        // 이건 작성시간을 기준으로 내림차순으로 정렬함
         limit(25),
-        // 문서의 개수를 제한
+        // firebase 제공, 문서의 개수를 제한하기
       );
 
       /* const snapshot = await getDocs(tweetsQuery);
@@ -68,10 +68,10 @@ export default function Timeline() {
       // 가져온 데이터들(spanshot.docs)을 순회하며 각 문서의 데이터와 문서 고유 ID를 포함한 새로운 객체 배열을 만든다 */
 
       unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
-        // firebase 제공, 서버와 연결하여 실시간으로 데이터를 받아오는 함수
+        // firebase 제공, onSnapshot: 서버와 연결하여 실시간으로 데이터를 받아오는 함수
         // firebase db를 계속 감시하는 리스너를 등록하고 동시에 해제 함수 반환까지 한다
         // getDocs와 달리 새로고침을 하지 않아도 변화가 생길때마다 자동으로 전달해줌
-        // onSnapshot이 해제 함수를 반환 -> unsubscribe에 저장
+        // 과정: onSnapshot이 해제 함수를 반환 -> unsubscribe에 저장
         const tweets = snapshot.docs.map((doc) => {
           const { tweet, createdAt, userId, username, photo } = doc.data();
           return {
@@ -87,7 +87,7 @@ export default function Timeline() {
       });
     };
     fetchTweets();
-    // Clean up 함수 패턴
+    // 밑의 코드는 Clean up 함수 패턴
     // 메모리 누수와 버그를 방지하는 핵심 패턴
     return () => {
       unsubscribe && unsubscribe();

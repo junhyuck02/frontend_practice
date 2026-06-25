@@ -42,7 +42,7 @@ export default function Login() {
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
-      // firebase에서 제공하는 이메일과 비번으로 로그인해주는 함수
+      // firebase 제공, 이메일과 비번으로 로그인해주는 함수
       navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
@@ -60,7 +60,7 @@ export default function Login() {
     }
     try {
       await sendPasswordResetEmail(auth, email);
-      // firebase에서 제공하는 비밀번호를 재설정할 수 있는 링크가 담긴 이메일을 해당 사용자에게 발송하는 함수
+      // firebase 제공, 비밀번호를 재설정할 수 있는 링크가 담긴 이메일을 해당 사용자에게 발송하는 함수
       setResetSent(true);
       setError("");
     } catch (e) {

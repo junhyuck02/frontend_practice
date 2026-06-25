@@ -103,8 +103,8 @@ export default function PostTweetForm() {
     try {
       setLoading(true);
       const doc = await addDoc(collection(db, "tweets"), {
-        // addDoc: firebase에서 제공, 지정된 컬렉션에 새로운 데이터를 추가하고 고유한 ID를 자동으로 생성해주는 함수
-        // collection: firebase에서 제공, 데이터를 담는 폴더(컬렉션)를 가리키는 객체를 생성하는 함수
+        // addDoc: firebase 제공, 지정된 컬렉션에 새로운 데이터를 추가하고 고유한 ID를 자동으로 생성해주는 함수
+        // collection: firebase 제공, 데이터를 담는 폴더(컬렉션)를 가리키는 객체를 생성하는 함수
         // db 객체에서 tweets 라는 이름의 컬렉션을 찾아 그 안에 데이터를 넣겠다
         tweet,
         createdAt: Date.now(), // 트윗이 작성된 시간
@@ -125,9 +125,9 @@ export default function PostTweetForm() {
         await updateDoc(doc, {
           photo: url,
         });
-        // firebase 제공, 데베에 있는 기존 문서의 내용을 수정
+        // firebase 제공, db에 있는 기존 문서의 내용을 수정
       }
-      // 업로드하면 리셋해주기
+      // 밑에 두줄은 업로드하면 리셋해주기
       setTweet("");
       setFile(null);
     } catch (e) {

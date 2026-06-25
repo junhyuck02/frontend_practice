@@ -52,13 +52,12 @@ export default function CreateAccount() {
         email,
         password,
       );
-      // firebase가 제공하는 함수임
-      // 이매일과 비밀번호로 계정을 생성하고 로그인까지 해주는 함수
+      // firebase 제공, 이매일과 비밀번호로 계정을 생성하고 로그인까지 해주는 함수
 
       await updateProfile(credentials.user, {
         displayName: username,
       });
-      // firebase가 제공하는 함수임
+      // firebase 제공
       // 전 단계에서 쓴 함수가 인자를 이메일, 비번밖에 안받아서 추가적인 사용자 정보를 프로필에 저장하고 업데이트하는 것
       // .user는 생성된 사용자에 대한 모든 정보가 담긴 객체를 반환, displayName도 정해진 키 이름
       navigate("/");
